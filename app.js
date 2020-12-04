@@ -21,13 +21,16 @@ const app = express();
 
 const users = require('./routes/users');
 
+//Set-up Cross-Origin Resource Sharing
+app.use(cors());
+app.options('*', cors());
+
 //Index Route
 app.get('/', (req, res) => {
     res.send('<h1>HELLO WORLD!</h1>');
 });
 
-//Set-up Cross-Origin Resource Sharing
-app.use(cors());
+
 
 //Parsers
 app.use(express.json()); //Parse json bodies
