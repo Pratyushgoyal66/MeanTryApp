@@ -14,12 +14,16 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service'; 
+import { AuthGuardLoggedOut } from './guards/authLoggedOut.guard';
+import {AuthGuardLoggedIn } from './guards/authLoggedIn.guard';
+
+
 const appRoutes: Routes = [
   {path : '', component: HomeComponent},
-  {path : 'register', component: RegisterComponent},
-  {path : 'login', component: LoginComponent},
-  {path : 'dashboard', component: DashboardComponent},
-  {path : 'profile', component: ProfileComponent}
+  {path : 'register', component: RegisterComponent, canActivate: [AuthGuardLoggedIn]},
+  {path : 'login', component: LoginComponent, canActivate: [AuthGuardLoggedIn]},
+  {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuardLoggedOut]},
+  {path : 'profile', component: ProfileComponent, canActivate: [AuthGuardLoggedOut]}
 
 ];
 
@@ -42,7 +46,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule.forRoot()
   ],
-  providers: [ValidateService, AuthService],
+  providers: [ValidateService, AuthService, AuthGuardLoggedOut, AuthGuardLoggedIn],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
